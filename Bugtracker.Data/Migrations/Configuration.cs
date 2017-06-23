@@ -38,18 +38,18 @@ namespace Bugtracker.Data.Migrations
             var person5 = context.Persons.Find(5);
 
             context.Tickets.AddOrUpdate(x => x.TicketID,
-                new Ticket { TicketID = 1, Description = "Не работает кнопка на главной странице", CreatedDate = DateTime.Now.AddHours(4), Person = person1, StatusID = 2 },
-                new Ticket { TicketID = 2, Description = "Закончилась бумага в офисе", CreatedDate = DateTime.Now.AddHours(5), Person = person2, StatusID = 1 },
-                new Ticket { TicketID = 3, Description = "Не отображается баннер", CreatedDate = DateTime.Now.AddHours(2), Person = person3, StatusID = 2 },
-                new Ticket { TicketID = 4, Description = "Кофемашина сломалась", CreatedDate = DateTime.Now.AddHours(1), Person = person4, StatusID = 2 },
-                new Ticket { TicketID = 5, Description = "Корзина покупателя не работает", CreatedDate = DateTime.Now.AddHours(24), Person = person5, StatusID = 2 },
-                new Ticket { TicketID = 6, Description = "Закончились чернила в принтере", CreatedDate = DateTime.Now.AddHours(44), Person = person2, StatusID = 1 },
-                new Ticket { TicketID = 7, Description = "Шаблоны не корректно отображаются", CreatedDate = DateTime.Now.AddHours(23), Person = person2, StatusID = 2 },
-                new Ticket { TicketID = 8, Description = "Обратная связь не работает", CreatedDate = DateTime.Now.AddHours(12), Person = person3, StatusID = 1 },
-                new Ticket { TicketID = 9, Description = "Ошибка доступа к личному кабинету", CreatedDate = DateTime.Now.AddHours(15), Person = person4, StatusID = 2 },
-                new Ticket { TicketID = 10, Description = "Патч 4.3.21 не устанавливается", CreatedDate = DateTime.Now.AddHours(41), Person = person4, StatusID = 1 },
-                new Ticket { TicketID = 11, Description = "Сайт упал", CreatedDate = DateTime.Now.AddHours(26), Person = person5, StatusID = 2 },
-                new Ticket { TicketID = 12, Description = "Заел замок в кладовке, помогите!", CreatedDate = DateTime.Now.AddHours(1), Person = person1, StatusID = 2 }
+                new Ticket { TicketID = 1, PersonID = 1, Description = "Не работает кнопка на главной странице", CreatedDate = DateTime.Now.AddHours(4), Person = person1, StatusID = 2 },
+                new Ticket { TicketID = 2, PersonID = 2, Description = "Закончилась бумага в офисе", CreatedDate = DateTime.Now.AddHours(5), Person = person2, StatusID = 1 },
+                new Ticket { TicketID = 3, PersonID = 3, Description = "Не отображается баннер", CreatedDate = DateTime.Now.AddHours(2), Person = person3, StatusID = 2 },
+                new Ticket { TicketID = 4, PersonID = 4, Description = "Кофемашина сломалась", CreatedDate = DateTime.Now.AddHours(1), Person = person4, StatusID = 2 },
+                new Ticket { TicketID = 5, PersonID = 5, Description = "Корзина покупателя не работает", CreatedDate = DateTime.Now.AddHours(24), Person = person5, StatusID = 2 },
+                new Ticket { TicketID = 6, PersonID = 2, Description = "Закончились чернила в принтере", CreatedDate = DateTime.Now.AddHours(44), Person = person2, StatusID = 1 },
+                new Ticket { TicketID = 7, PersonID = 2, Description = "Шаблоны не корректно отображаются", CreatedDate = DateTime.Now.AddHours(23), Person = person2, StatusID = 2 },
+                new Ticket { TicketID = 8, PersonID = 3, Description = "Обратная связь не работает", CreatedDate = DateTime.Now.AddHours(12), Person = person3, StatusID = 1 },
+                new Ticket { TicketID = 9, PersonID = 4, Description = "Ошибка доступа к личному кабинету", CreatedDate = DateTime.Now.AddHours(15), Person = person4, StatusID = 2 },
+                new Ticket { TicketID = 10, PersonID = 4, Description = "Патч 4.3.21 не устанавливается", CreatedDate = DateTime.Now.AddHours(41), Person = person4, StatusID = 1 },
+                new Ticket { TicketID = 11, PersonID = 5, Description = "Сайт упал", CreatedDate = DateTime.Now.AddHours(26), Person = person5, StatusID = 2 },
+                new Ticket { TicketID = 12, PersonID = 1, Description = "Заел замок в кладовке, помогите!", CreatedDate = DateTime.Now.AddHours(1), Person = person1, StatusID = 2 }
                 );
 
             context.SaveChanges();

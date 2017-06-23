@@ -7,34 +7,36 @@
 
 <div>
     <div class="col-md-4">
-        <table class="table table-hover table-bordered" >
+        <table id="personTable" class="table table-hover table-bordered" >
             <thead>
                 <tr>
                     <th>ФИО Сотрудника</th>
                     <th>Должность</th>
-                    <th></th>
+                    <th><a href="@Url.Action("Refresh", "Home")"class="btn btn-success">Показать все тикеты</a></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.Persons)
                 {
                     <tr>
+                        @Html.HiddenFor(x => item.PersonID)
                         <td>@item.FullName</td>
                         <td>@item.Position.Title</td>
                         <td>
-                            <a href="@Url.Action("EditPerson", "Home", new { id = item.PersonID })"> <button class="btn btn-primary">Править</button> </a>
-                            <a href="@Url.Action("DeletePerson", "Home", new { id = item.PersonID })"> <button class="btn btn-primary">Удалить</button> </a>
+                            <a href="@Url.Action("EditPerson", "Home", new { id = item.PersonID })" class="btn btn-primary"> Править </a>
+                            <a href="@Url.Action("DeletePerson", "Home", new { id = item.PersonID })"class="btn btn-primary"> Удалить</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         <div>
-            <a href="@Url.Action("CreatePerson", "Home")"> <button class="btn btn-primary">Добавить сотрудника</button> </a>
+            <a href="@Url.Action("CreatePerson", "Home")"class="btn btn-primary">Добавить сотрудника</a>
+            <a href="@Url.Action("CreateTicket", "Home")" class="btn btn-primary">Добавить Тикет</a>
         </div>
     </div>
     <div class="col-md-8">
-        <table class="table table-hover table-bordered">
+        <table id="ticketTable" class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Дата</th>
@@ -49,15 +51,17 @@
                 {
                     @Html.HiddenFor(x => item.StatusID)
                     var warning = item.StatusID == 1 ? "success" : null;
-                    <tr class="@warning" >
+                    var isActive = item.StatusID == 1 ? "disabled" : null;
+                    <tr class="rows @warning" >
+                        @Html.HiddenFor(x => item.PersonID)
                         <td>@item.CreatedDate</td>
                         <td>@item.Person.FullName</td>
                         <td>@item.Description</td>
                         <td>@item.Status.Title</td>
                         <td>
-                            <a href="@Url.Action("Complete", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Выполнено</button> </a>
-                            <a href="@Url.Action("EditTicket", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Редактировать</button> </a>
-                            <a href="@Url.Action("DeleteTicket", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Удалить</button> </a>
+                            <a href="@Url.Action("Complete", "Home", new { id = item.TicketID})" class="btn btn-primary" disabled="@isActive"> Выполнено</a>
+                            <a href="@Url.Action("EditTicket", "Home", new { id = item.TicketID })" class="btn btn-primary">Редактировать</a>
+                            <a href="@Url.Action("DeleteTicket", "Home", new { id = item.TicketID })" class="btn btn-primary" >Удалить</a>
                         </td>
                     </tr>
                 }

@@ -20,7 +20,7 @@ namespace Bugtracker.Data.Entities
         public string FirstName { get; set; }
         [Display(Name = "Отчество")]
         public string LastName { get; set; }
-        public string FullName { get { return  FirstName + " " + Name + " " + LastName; } }
+        public string FullName { get { return FirstName + " " + Name + " " + LastName; } set { } }
         public virtual Position Position { get; set; }
 
         public ICollection<Ticket> Tickets { get; set; }

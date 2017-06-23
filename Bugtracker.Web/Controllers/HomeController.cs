@@ -32,13 +32,20 @@ namespace Bugtracker.Web.Controllers
             SelectList list = new SelectList(statusList, "StatusID", "Title");
             ViewBag.StatusList = list;
         }
+        //Создаем выпадающий список сотрудников
+        private void CreatePersonList()
+        {
+            var personList = personDb.GetAll().ToList();
+            SelectList list = new SelectList(personList, "PersonID", "FullName");
+            ViewBag.PersonList = list;
+        }
 
         //Начальная загрузка всех данных в представление
         public ActionResult Index()
         {
             PersonTicketViewModel personTicketVM = new PersonTicketViewModel();
             personTicketVM.Persons = personDb.GetAll();
-            personTicketVM.Tickets = ticketDb.GetAll();
+            personTicketVM.Tickets = ticketDb.GetAll().OrderBy(x => x.CreatedDate);
             return View(personTicketVM);
         }
 
@@ -61,7 +68,7 @@ namespace Bugtracker.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                personDb.Add(person);
+                personDb.Edit(person);
                 personDb.Save();
                 return RedirectToAction("Index");
             }
@@ -79,19 +86,17 @@ namespace Bugtracker.Web.Controllers
             return View(result);
         }
 
-        [HttpPost]
-        public ActionResult DeletePerson(Person person)
+        [HttpPost, ActionName("DeletePerson")]
+        public ActionResult DeletePersonConfirm(int? id)
         {
-            try
+            var result = personDb.GetOne(id);
+            if (result == null)
             {
-                personDb.Delete(person);
-                personDb.Save();
-                return RedirectToAction("Index");
+                return HttpNotFound();
             }
-            catch
-            {
-                return View();
-            }
+            personDb.Delete(result);
+            personDb.Save();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -131,6 +136,7 @@ namespace Bugtracker.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticket.CreatedDate = DateTime.Now;
                 ticketDb.Edit(ticket);
                 ticketDb.Save();
                 return RedirectToAction("Index");
@@ -138,5 +144,75 @@ namespace Bugtracker.Web.Controllers
             return View(ticket);
         }
         
+        [HttpGet]
+        public ActionResult DeleteTicket(int? id)
+        {
+            var result = ticketDb.GetOne(id);
+            if (result == null)
+            {
+                return View("Index");
+            }
+            return View(result);
+        }
+
+        [HttpPost, ActionName("DeleteTicket")]
+        public ActionResult DeleteTicketConfirm(int? id)
+        {
+            try
+            {
+                var result = ticketDb.GetOne(id);
+                if (result == null)
+                {
+                    return HttpNotFound();
+                }
+                ticketDb.Delete(result);
+                ticketDb.Save();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CreateTicket()
+        {
+            CreatePersonList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateTicket(Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                ticket.StatusID = 2;
+                ticket.CreatedDate = DateTime.Now;
+                ticketDb.Add(ticket);
+                ticketDb.Save();
+                ticketDb.GetAll().OrderBy(x => x.CreatedDate);
+                return RedirectToAction("Index");
+            }
+            return View(ticket);
+        }
+
+        public ActionResult Complete(int? id)
+        {
+            var result = ticketDb.GetOne(id);
+            if (result == null)
+            {
+                return RedirectToAction("Index");
+            }
+            result.StatusID = 1;
+            ticketDb.Edit(result);
+            ticketDb.Save();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Refresh()
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
