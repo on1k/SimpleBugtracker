@@ -1,0 +1,67 @@
+﻿@model Bugtracker.Web.Models.PersonTicketViewModel
+@{
+    ViewBag.Title = "Simple BugTracker";
+}
+
+<h2>Simple BugTracker</h2>
+
+<div>
+    <div class="col-md-4">
+        <table class="table table-hover table-bordered" >
+            <thead>
+                <tr>
+                    <th>ФИО Сотрудника</th>
+                    <th>Должность</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Persons)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.Position.Title</td>
+                        <td>
+                            <a href="@Url.Action("EditPerson", "Home", new { id = item.PersonID })"> <button class="btn btn-primary">Править</button> </a>
+                            <a href="@Url.Action("DeletePerson", "Home", new { id = item.PersonID })"> <button class="btn btn-primary">Удалить</button> </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <a href="@Url.Action("CreatePerson", "Home")"> <button class="btn btn-primary">Добавить сотрудника</button> </a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Создатель</th>
+                    <th>Описание</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Tickets)
+                {
+                    @Html.HiddenFor(x => item.StatusID)
+                    var warning = item.StatusID == 1 ? "success" : null;
+                    <tr class="@warning" >
+                        <td>@item.CreatedDate</td>
+                        <td>@item.Person.FullName</td>
+                        <td>@item.Description</td>
+                        <td>@item.Status.Title</td>
+                        <td>
+                            <a href="@Url.Action("Complete", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Выполнено</button> </a>
+                            <a href="@Url.Action("EditTicket", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Редактировать</button> </a>
+                            <a href="@Url.Action("DeleteTicket", "Home", new { id = item.TicketID })"> <button class="btn btn-primary">Удалить</button> </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
