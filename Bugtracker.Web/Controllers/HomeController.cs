@@ -49,6 +49,7 @@ namespace Bugtracker.Web.Controllers
             return View(personTicketVM);
         }
 
+        #region Методы сотрудников
         //Выводим сотрудника в представление редактирования
         [HttpGet]
         public ActionResult EditPerson(int? id)
@@ -118,7 +119,9 @@ namespace Bugtracker.Web.Controllers
 
             return View();
         }
-
+        #endregion
+        #region Методы тикетов
+        
         [HttpGet]
         public ActionResult EditTicket(int? id)
         {
@@ -196,7 +199,8 @@ namespace Bugtracker.Web.Controllers
             }
             return View(ticket);
         }
-
+        #endregion
+        //Закрытие тикета
         public ActionResult Complete(int? id)
         {
             var result = ticketDb.GetOne(id);
@@ -209,10 +213,11 @@ namespace Bugtracker.Web.Controllers
             ticketDb.Save();
             return RedirectToAction("Index");
         }
-
+        //Обновляем список тикетов
         public ActionResult Refresh()
         {
             return RedirectToAction("Index");
         }
+     
     }
 }
